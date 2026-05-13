@@ -1,8 +1,11 @@
 
   import {Link, NavLink} from 'react-router-dom'
+  
 
 export const Header = () => {
   const imagen = '/Logov3.png'
+
+
   return (
     <>
          <header className="bg-cyan-900">
@@ -13,9 +16,9 @@ export const Header = () => {
                             </div>
 
                             <nav className="flex flex-col gap-4">
-                                <Link to='/' className='text-white text-2xl '  >Inicio</Link>
-                                <Link to='/favoritos' className='text-white text-2xl'  >Favoritos</Link>
-
+                                <NavLink to='/' className={({isActive}) => isActive ? 'text-3xl tracking-widest text-amber-400': 'text-3xl tracking-widest text-white'} >Inicio</NavLink>
+                                <NavLink to='/Favoritos' className={({isActive}) => isActive ? 'text-3xl tracking-widest text-amber-400': 'text-3xl tracking-widest text-white'} >Favoritos</NavLink>
+                                
                             </nav>
                     </div>
             </div>
