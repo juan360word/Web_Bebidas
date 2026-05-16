@@ -1,19 +1,37 @@
 
-import { useEffect, useMemo } from 'react'
-import {Link, NavLink,useLocation} from 'react-router-dom'
+import { useEffect, useMemo, useState, type ChangeEvent, type FormEvent } from 'react'
+import { NavLink, useLocation } from 'react-router-dom'
 import { useAppStore } from '../Stores/StoreZustand'
 
 export const Header = () => {
   const imagen = '/Logov3.png'
   const {pathname} = useLocation()
   const Api = useAppStore((item) => item.fetchApiCategorias)
+  const Categorias = useAppStore((item) => item.categorias)
+  const SearchCosas = useAppStore((item) => item.searchCosas)
+
+  const [Search,setSearch] = useState({
+    ingrediente: '',
+    categoria: ''
+  })
+
+  const Home = useMemo(() => pathname === '/' ,[pathname])
 
   useEffect(() => {
     Api()
-  },[])
+  }, [Api])
 
+  const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    setSearch((prev) => ({ ...prev, [e.target.name]: e.target.value }))
+  }
 
-  const Home = useMemo(() => pathname === '/' ,[pathname])
+  const handleSumit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    if (Object.values(Search).includes('')) return
+    SearchCosas(Search)
+  }
+
+  
   return (
     <>
          <header className={Home ? 'btn' : 'bg-cyan-900'}>
@@ -30,15 +48,19 @@ export const Header = () => {
                             </nav>
                     </div>
                     {Home && (
-                      <form className='md:w-1/2 2xl:w-1/3 my-32 bg-orange-400 shadow-2xl p-10 rounded-lg space-y-8 ' >
+                      <form onSubmit={handleSumit} className='md:w-1/2 2xl:w-1/3 my-32 bg-orange-400 shadow-2xl p-10 rounded-lg space-y-8 ' >
                         <div className=''>
                           <label className='block  text-white font-extrabold text-lg' htmlFor='ingrediente'>
                             Nombre o Ingrediente
 
-                            <input id='ingrediente'
+                            <input
+                                  id='ingrediente'
+                                  name='ingrediente'
                                   type='text'
                                   className='p-3 bg-white text-black w-full rounded-lg focus:outline-none'
                                   placeholder='Ingresa el nombre o ingrediente'
+                                  onChange={handleChange}
+                                  value={Search.ingrediente}
                             >
                                   
                             </input>
@@ -46,15 +68,22 @@ export const Header = () => {
                         </div>
 
                         <div className='  '>
-                          <label className='block text-white font-extrabold text-lg' htmlFor='ingrediente'>
+                          <label className='block text-white font-extrabold text-lg' htmlFor='categoria'>
                             Categoria
 
-                            <select id='ingrediente'
-                                 
+                            <select
+                                  id='categoria'
+                                  name='categoria'
                                   className='p-3 w-full  bg-white text-black rounded-lg focus:outline-none'
-                                  
+                                  onChange={handleChange}
+                                  value={Search.categoria}
                             >
                                  <option value=""> Selecciona </option> 
+                                 {Categorias.drinks.map(item => (
+                                  <option value={item.strCategory} key={item.strCategory}>
+                                    {item.strCategory}
+                                  </option>
+                                 ))}
                             </select>
                           </label>
                         </div>
