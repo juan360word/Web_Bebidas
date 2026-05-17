@@ -37,8 +37,9 @@ export const createList : StateCreator<sliceType> = (set) => ({
     Modal:false,
     informacion: async (item) => {
         const Informacion = await getInformacion(item)
-        set({info:Informacion,Modal:true})
-        
+        if (Informacion) {
+            set({ info: Informacion, Modal: true })
+        }
     },
     info: {} as Info,
     openModal: () => set({ Modal: true }),

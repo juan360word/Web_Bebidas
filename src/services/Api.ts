@@ -33,12 +33,14 @@ export async function getRecipes(filtros:SearchFilter) {
 
 export async function getInformacion(id: Drink['idDrink']) {
     const url = `https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${id}`
-    const {data} = await axios(url)
-    const Resultado = safeParse(RecipeAPIResponseSchema,data[0])
-    if(Resultado.success){
-        return Resultado.output // datos validos
-    }else {
-        console.error(Resultado.issues) // ❌ errores de validación
-      }
+    const { data } = await axios(url)
+    const drink = data.drinks?.[0]
+    if (!drink) return
+
+    const Resultado = safeParse(RecipeAPIResponseSchema, drink)
+    if (Resultado.success) {
+        return Resultado.output
+    }
+    console.error(Resultado.issues)
 }
 

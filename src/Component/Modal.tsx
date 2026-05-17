@@ -1,58 +1,74 @@
-
-
-
 import { Button, Dialog, DialogPanel, DialogTitle } from '@headlessui/react'
-import { useState } from 'react'
 import { useAppStore } from '../Stores/StoreZustand'
 
-export  function Modal() {
-  let [isOpen, setIsOpen] = useState(false)
-  const Modal = useAppStore((item) =>  item.Modal )
-  const CloseModal = useAppStore((item) => item.closeModal )
+import type { JSX } from 'react'
+import type { Drink } from '../Types/Types'
 
-  function open() {
-    setIsOpen(true)
+
+export function Modal() {
+  
+  const isOpen = useAppStore((item) => item.Modal)
+  const closeModal = useAppStore((item) => item.closeModal)
+  const info = useAppStore((item) => item.info)
+  const Favoritos = useAppStore((item) => item.handleFavoritos)
+  const existefavorito = useAppStore((item) => item.existefavorito)
+
+  const Ingredientes = () => {
+    const ingrediens : JSX.Element[] = []
+    for(let i =1; i<= 9 ; i++){
+      const ingredien = info[`strIngredient${i}` as keyof Drink]
+      const me = info[`strMeasure${i}` as keyof Drink]
+
+      if(ingredien && me){
+        ingrediens.push(
+          <li key={i} className='text-lg m-4'>
+            {ingredien}-{me}
+          </li>
+        )
+      }
+    }
+   return ingrediens
   }
 
-  function close() {
-    setIsOpen(false)
-  }
+
+  if (!isOpen || !info.strDrink) return null
 
   return (
-    <>
-      <Button
-        onClick={open}
-        className="rounded-md bg-black/20 px-4 py-2 text-sm font-medium text-white focus:not-data-focus:outline-none data-focus:outline data-focus:outline-white data-hover:bg-black/30"
-      >
-        Open dialog
-      </Button>
-
-      <Dialog open={Modal} as="div" className="relative z-10 focus:outline-none" onClose={close}>
-        <div className="fixed inset-0 z-10 w-screen overflow-y-auto">
-          <div className="flex min-h-full items-center justify-center p-4">
-            <DialogPanel
-              transition
-              className="w-full max-w-md rounded-xl bg-white/5 p-6 backdrop-blur-2xl duration-300 ease-out data-closed:transform-[scale(95%)] data-closed:opacity-0"
-            >
-              <DialogTitle as="h3" className="text-base/7 font-medium text-white">
-                Payment successful
-              </DialogTitle>
-              <p className="mt-2 text-sm/6 text-white/50">
-                Your payment has been successfully submitted. We’ve sent you an email with all of the details of your
-                order.
-              </p>
-              <div className="mt-4">
-                <Button
-                  className="inline-flex items-center gap-2 rounded-md bg-gray-700 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-inner shadow-white/10 focus:not-data-focus:outline-none data-focus:outline data-focus:outline-white data-hover:bg-gray-600 data-open:bg-gray-700"
-                  onClick={CloseModal}
-                >
-                  Got it, thanks!
-                </Button>
-              </div>
-            </DialogPanel>
-          </div>
+    <Dialog open={isOpen} onClose={closeModal} className="relative z-50">
+      <div className="fixed inset-0 z-10 w-screen overflow-y-auto bg-black/50">
+        <div className="flex min-h-full items-center justify-center p-4">
+          <DialogPanel className="w-full max-w-lg rounded-xl bg-white p-6 shadow-xl">
+            <DialogTitle className="text-3xl text-center font-medium tracking-wider text-gray-900">
+              {info.strDrink}
+            </DialogTitle>
+            
+            <img
+              src={info.strDrinkThumb}
+              alt={`imagen de ${info.strDrink}`}
+              className="mx-auto mt-4 w-48 rounded-lg"
+            />
+            <p className="mt-4 text-lg text-gray-700">{info.strInstructions}</p>
+            {Ingredientes()}
+            <div className="mt-6 flex justify-between gap-20">
+              <Button
+                className="w-full rounded-lg bg-orange-400 px-4 py-2 font-semibold text-white hover:bg-orange-600"
+                onClick={closeModal}
+              >
+                Cerrar
+              </Button>
+              <Button
+                className="w-full rounded-lg bg-blue-800 px-4 py-2 font-semibold text-white hover:bg-blue-950"
+                onClick={() => {
+                  Favoritos(info)
+                  closeModal()
+                }}
+              >
+               {existefavorito(info.idDrink) ? 'Elimina Favorito' : 'Insertar a Favoritos'}
+              </Button>
+            </div>
+          </DialogPanel>
         </div>
-      </Dialog>
-    </>
+      </div>
+    </Dialog>
   )
 }
