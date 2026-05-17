@@ -11,6 +11,7 @@ export const DrinkCard = ({drink} : DrinkProps) => {
 
     const Informacion = useAppStore((item) => item.informacion)
 
+    
   return (
     <>
     <div className=" text-center hover:scale-90 mx-auto shadow-lg">
@@ -23,6 +24,7 @@ export const DrinkCard = ({drink} : DrinkProps) => {
             </h2> 
             <button className="mt-5 cursor-pointer w-full p-3 font-serif bg-orange-400 hover:bg-orange-700 
             hover:text-white rounded-lg text-xl"
+            
             onClick={() => Informacion(drink.idDrink)}
             >
                 Ver Receta

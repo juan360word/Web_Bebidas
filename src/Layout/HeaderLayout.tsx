@@ -11,7 +11,7 @@ export const HeaderLayout = () => {
 
   useEffect(() => {
     Stoge()
-  },[])
+  }, [Stoge])
   
   return (
     <>

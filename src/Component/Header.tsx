@@ -2,6 +2,9 @@
 import { useEffect, useMemo, useState, type ChangeEvent, type FormEvent } from 'react'
 import { NavLink, useLocation } from 'react-router-dom'
 import { useAppStore } from '../Stores/StoreZustand'
+import { Notificacion,notificar,notificarError } from './Notificacion'
+
+
 
 export const Header = () => {
   const imagen = '/Logov3.png'
@@ -9,6 +12,8 @@ export const Header = () => {
   const Api = useAppStore((item) => item.fetchApiCategorias)
   const Categorias = useAppStore((item) => item.categorias)
   const SearchCosas = useAppStore((item) => item.searchCosas)
+
+  
 
   const [Search,setSearch] = useState({
     ingrediente: '',
@@ -25,15 +30,20 @@ export const Header = () => {
     setSearch((prev) => ({ ...prev, [e.target.name]: e.target.value }))
   }
 
-  const handleSumit = (e: FormEvent<HTMLFormElement>) => {
+  
+  const handleSumits = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    if (Object.values(Search).includes('')) return
+    if (Object.values(Search).includes('')) {
+      notificarError('Llene todos los espacios!')
+      return
+    }
     SearchCosas(Search)
+    notificar('¡Contenido cargado!')
   }
 
-  
   return (
     <>
+        <Notificacion />
          <header className={Home ? 'btn' : 'bg-cyan-900'}>
             <div className="mx-auto container px-5 py-16">
                     <div className="flex justify-between items-center">
@@ -48,7 +58,7 @@ export const Header = () => {
                             </nav>
                     </div>
                     {Home && (
-                      <form onSubmit={handleSumit} className='md:w-1/2 2xl:w-1/3 my-32 bg-orange-400 shadow-2xl p-10 rounded-lg space-y-8 ' >
+                      <form onSubmit={handleSumits} className='md:w-1/2 2xl:w-1/3 my-32 bg-orange-400 shadow-2xl p-10 rounded-lg space-y-8 ' >
                         <div className=''>
                           <label className='block  text-white font-extrabold text-lg' htmlFor='ingrediente'>
                             Nombre o Ingrediente
@@ -87,16 +97,17 @@ export const Header = () => {
                             </select>
                           </label>
                         </div>
-
+                          
                         <input type="submit" value="Buscar" className=' bg-white text-black rounded-lg w-full
                           cursor-pointer text-lg  hover:bg-amber-950 hover:text-white
                         ' />
-
                       </form>
                     )}
             </div>
-
+       
          </header>
+        
+         
     </>
   )
 }

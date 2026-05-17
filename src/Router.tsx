@@ -1,9 +1,12 @@
 
 import {BrowserRouter,Routes,Route} from 'react-router-dom'
 import Principal from './Pages/principal.tsx'
-import Favoritos from './Pages/Favoritos.tsx'
-import { HeaderLayout } from './Layout/HeaderLayout.tsx'
 
+import { HeaderLayout } from './Layout/HeaderLayout.tsx'
+import {lazy,Suspense} from 'react'
+
+const PagFavorito = lazy(() => import('./Pages/Favoritos.tsx'))
+const PagPrincipal = lazy(() => import('./Pages/principal.tsx'))
 
 
 const AppRouter = () => {
@@ -11,8 +14,16 @@ const AppRouter = () => {
     <BrowserRouter>
         <Routes>
           <Route element={<HeaderLayout/>}> 
-            <Route path='/' element={<Principal/>} index/>
-            <Route path='/Favoritos' element={<Favoritos/>}/>
+            <Route path='/' element={
+              <Suspense>
+                <PagPrincipal/>
+              </Suspense>
+            } index/>
+            <Route path='/Favoritos' element={
+              <Suspense fallback='Cargando...'>
+                <PagFavorito />
+              </Suspense>
+            }/>
           </Route> 
         </Routes>
     </BrowserRouter>

@@ -1,8 +1,10 @@
 import { Button, Dialog, DialogPanel, DialogTitle } from '@headlessui/react'
 import { useAppStore } from '../Stores/StoreZustand'
+import { Notificacion,notiFavoritoseliminar,agregar } from "./Notificacion"
 
 import type { JSX } from 'react'
 import type { Drink } from '../Types/Types'
+
 
 
 export function Modal() {
@@ -12,6 +14,16 @@ export function Modal() {
   const info = useAppStore((item) => item.info)
   const Favoritos = useAppStore((item) => item.handleFavoritos)
   const existefavorito = useAppStore((item) => item.existefavorito)
+
+
+  const handelsumit = () => {
+    if(existefavorito(info.idDrink)){
+      notiFavoritoseliminar('Se eliminó de favoritos')
+    } else {
+      agregar('Se agregó a favoritos')
+    }
+    Favoritos(info)  // 👈 no olvides llamar esto también
+  }
 
   const Ingredientes = () => {
     const ingrediens : JSX.Element[] = []
@@ -59,8 +71,9 @@ export function Modal() {
               <Button
                 className="w-full rounded-lg bg-blue-800 px-4 py-2 font-semibold text-white hover:bg-blue-950"
                 onClick={() => {
-                  Favoritos(info)
+                  
                   closeModal()
+                  handelsumit()
                 }}
               >
                {existefavorito(info.idDrink) ? 'Elimina Favorito' : 'Insertar a Favoritos'}
