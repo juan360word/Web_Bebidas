@@ -1,9 +1,11 @@
 
 import axios from "axios";
-import { CategoriasApi } from "../ValiBot/ValiBotSchema";
+import { CategoriasApi, RecipeAPIResponseSchema } from "../ValiBot/ValiBotSchema";
 import { safeParse } from "valibot";
-import type { SearchFilter } from "../Types/Types";
+import type { Drink, SearchFilter } from "../Types/Types";
 import { DrinksApi } from "../ValiBot/ValiBotSchema";
+
+
 
 
 export async function getApi() {
@@ -29,4 +31,14 @@ export async function getRecipes(filtros:SearchFilter) {
       }
 }
 
+export async function getInformacion(id: Drink['idDrink']) {
+    const url = `https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${id}`
+    const {data} = await axios(url)
+    const Resultado = safeParse(RecipeAPIResponseSchema,data[0])
+    if(Resultado.success){
+        return Resultado.output // datos validos
+    }else {
+        console.error(Resultado.issues) // ❌ errores de validación
+      }
+}
 
