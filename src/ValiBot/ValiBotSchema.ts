@@ -1,22 +1,27 @@
 
-import {array, object,string,nullish} from 'valibot'
+// Importaciones
+// Use Valibot por que ees muy bueno para los datos de las APIS
+
+import {array, object,string,nullish} from 'valibot' // validamos lo que usaremos
+
 
 
 
 export const CategoriasApi = object({
     drinks: array(object({strCategory: string()}))
-})
+}) // crearemos Drinks la cual se usara para los nombres
+
 export const SearchFilter = object({
     ingrediente: string(),
     categoria: string()
-})
+}) // se creo esto para poder filtrar lo que usaremos 
 
 export const DrinkApi = object({
     idDrink: string(),
     strDrink: string(),
     strDrinkThumb: string()
 
-})
+}) // espesificamos LOS DATOS QUE USAREMOS GRACIAS A LA API (LOS NOMBRES SE SACO DE LA API)
 
 export const DrinksApi = object({
     drinks: array(DrinkApi)
@@ -43,3 +48,5 @@ export const RecipeAPIResponseSchema = object({
     strMeasure5: nullish(string()),
     strMeasure6: nullish(string()),
   });
+
+  // ESTE ES PARA LOS INGREDIENTES QUE TIENEN LAS BEBIDAS
