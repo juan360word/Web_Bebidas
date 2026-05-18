@@ -7,13 +7,9 @@ Aplicación web para buscar y guardar recetas de bebidas y cócteles, construida
 
 ##  Demo
 
-> Deploy en Vercel: _[enlace aquí]_
-
+> Deploy en Vercel: web-bebidas.vercel.app
 ---
 
-## Vista previa
-
-> _(Agrega capturas de pantalla aquí)_
 
 ---
 
