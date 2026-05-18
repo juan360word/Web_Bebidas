@@ -13,7 +13,7 @@ const Principal = () => { // Se llamara en el Router.tsx como pagina principal
 
   return (
     <>
-    <h1 className='text-6xl font-black tracking-wider py-4 '>Recetas</h1> {/* Titulo */}
+    <h1 className='text-6xl font-black text-center tracking-wider py-4 '>Recetas</h1> {/* Titulo */}
 
     {hasDrink ? ( // Se hace el ternario para que pueda renderizar y para que aparezca el resultado dependiendo de la accion
       <>

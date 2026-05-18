@@ -8,6 +8,8 @@ import {createFavoritos} from './SliceFavoritos'
 import type  {FavoriteSlice} from './SliceFavoritos' //NOTIFICACION
 import type  {Notislice} from './SliceNoti' //NOTIFICACION
 import {createNoti} from './SliceNoti' 
+import { createIA } from './SliceIA'
+import type {SliceAI} from './SliceIA'
 
 
     {/*  Store principal de Zustand que combina múltiples slices en un solo store global
@@ -21,10 +23,11 @@ import {createNoti} from './SliceNoti'
         MOSTRAR LOS DATOS SIEMPRE PONER LOS CREATELIST
          */}
 
-export const useAppStore = create<sliceType & FavoriteSlice & Notislice  >((...A) => ({
+export const useAppStore = create<sliceType & FavoriteSlice & Notislice & SliceAI  >((...A) => ({
     ...createList(...A),
     ...createFavoritos(...A),
-    ...createNoti(...A)
+    ...createNoti(...A),
+    ...createIA(...A)
 }))
 
 

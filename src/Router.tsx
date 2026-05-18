@@ -10,6 +10,7 @@ import {lazy,Suspense} from 'react' // Esto se importa ya que ayuda a renderizar
 // Asi es para usarlo con Suspense
 const PagFavorito = lazy(() => import('./Pages/Favoritos.tsx')) 
 const PagPrincipal = lazy(() => import('./Pages/principal.tsx'))
+const IA = lazy(() => import('./Pages/IA.tsx'))
 
 //
 const AppRouter = () => {
@@ -31,6 +32,13 @@ const AppRouter = () => {
                 <PagFavorito />
               </Suspense>
             }/>
+          
+          <Route path='/IA' element={
+            <Suspense fallback='Esperando Mensaje...'>
+              <IA/>
+            </Suspense>
+          }>
+          </Route>
           </Route> 
         </Routes>
     </BrowserRouter>

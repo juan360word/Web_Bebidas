@@ -57,6 +57,7 @@ export const Header = () => { // Componente
                                 <NavLink to='/' className={({isActive}) => isActive ? 'text-4xl tracking-widest text-amber-400': 'text-4xl tracking-widest text-white'} >Inicio</NavLink>
                                 
                                 <NavLink to='/Favoritos' className={({isActive}) => isActive ? 'text-4xl tracking-widest text-amber-400': 'text-4xl tracking-widest text-white'} >Favoritos</NavLink>
+                                <NavLink to='/IA' className={({isActive}) => isActive ? 'text-4xl tracking-widest text-amber-400': 'text-4xl tracking-widest text-white'} >IA</NavLink>
                                 
                             </nav>
                             {/* Esto son las opciones de las paginas el cual uso isActive para poder mostrar en que pagina esta el usuario (Solo sirve con NAVLINK
