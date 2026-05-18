@@ -37,8 +37,9 @@ export default function GenerateAI() {
               <input 
                 name="prompt" 
                 id="prompt" 
-                className="border bg-white p-4 mx-auto  rounded-lg w-full border-slate-800" 
+                className="border bg-white text-black placeholder:text-slate-500 p-4 rounded-lg w-full border-slate-800 focus:outline-none focus:ring-2 focus:ring-amber-400" 
                 placeholder="Genera una receta con ingredientes. Ej. Bebida con Tequila y Fresa"
+                disabled={genera}
               />
               <button 
                 type="submit" 
@@ -54,8 +55,10 @@ export default function GenerateAI() {
               </button>
             </div>
           </form>
-        {genera && <p>Espera me estoy generando... 'Perdon la demora'</p> }
-          <div className="py-10 text-center whitespace-pre-wrap">
+        {genera && (
+          <p className="text-center text-slate-700">Generando receta, un momento...</p>
+        )}
+          <div className="py-10 text-center whitespace-pre-wrap text-slate-900 ">
             {IA}
           </div>
         </div>

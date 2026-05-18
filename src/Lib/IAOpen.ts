@@ -18,7 +18,7 @@ export default {
         const ApiOpen = getApiOpen()
 
         const result = streamText({
-            model: ApiOpen('baidu/cobuddy:free'),
+            model: ApiOpen('google/gemini-2.0-flash-lite-preview-02-05:free'),
             system:
                 'Eres un bartender experto. Genera recetas de bebidas claras, en español, con ingredientes y pasos.',
             prompt,

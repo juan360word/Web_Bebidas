@@ -24,8 +24,20 @@ export const createIA: StateCreator<SliceAI> = (set) => ({
             }
         } catch (error) {
             console.error(error)
-            const mensaje =
-                error instanceof Error ? error.message : 'No se pudo generar la receta con IA'
+            let mensaje = 'No se pudo generar la receta con IA'
+
+            if (error instanceof Error) {
+                mensaje = error.message
+
+                if (mensaje.includes('401') || mensaje.toLowerCase().includes('user not found')) {
+                    mensaje =
+                        'API key inválida. Revisa VITE_OPENROUTER_API_KEY en tu archivo .env y genera una nueva en openrouter.ai/keys'
+                } else if (mensaje.includes('Falta VITE_OPENROUTER_API_KEY')) {
+                    mensaje =
+                        'Falta la API key. Copia .env.example a .env y pega tu clave de OpenRouter.'
+                }
+            }
+
             notificarError(mensaje)
         } finally {
             set({ genera: false })
